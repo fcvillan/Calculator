@@ -1,51 +1,71 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Normal Calculator</title>
+  <title>Full Screen Calculator</title>
   <style>
-    body {
+    html, body {
+      height: 100%;
+      margin: 0;
       font-family: Arial, sans-serif;
+      background-color: #121212;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      margin: 0;
-      background-color: #f2f2f2;
     }
+
     .calculator {
-      background-color: #fff;
+      width: 100vw;
+      height: 100vh;
       padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-      width: 280px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      background-color: #1e1e1e;
     }
+
     #display {
       width: 100%;
-      padding: 15px;
-      font-size: 24px;
+      height: 15%;
+      font-size: 5vh;
       text-align: right;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+      padding: 10px;
+      box-sizing: border-box;
+      border: none;
+      color: white;
+      background-color: #333;
+      border-radius: 10px;
       margin-bottom: 10px;
     }
+
     .buttons {
+      flex-grow: 1;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(5, 1fr);
       gap: 10px;
     }
+
     button {
-      padding: 20px;
-      font-size: 18px;
+      font-size: 3vh;
       border: none;
-      border-radius: 6px;
-      background-color: #e0e0e0;
-      cursor: pointer;
-      transition: background 0.2s;
+      border-radius: 10px;
+      background-color: #2e2e2e;
+      color: white;
+      transition: 0.2s;
     }
+
     button:hover {
-      background-color: #d0d0d0;
+      background-color: #444;
+    }
+
+    .clear {
+      grid-column: span 4;
+      background-color: #d32f2f;
+    }
+
+    .clear:hover {
+      background-color: #b71c1c;
     }
   </style>
 </head>
@@ -73,7 +93,7 @@
       <button onclick="calculate()">=</button>
       <button onclick="append('+')">+</button>
 
-      <button onclick="clearDisplay()" style="grid-column: span 4; background-color: #f44336; color: white;">C</button>
+      <button class="clear" onclick="clearDisplay()">C</button>
     </div>
   </div>
 
