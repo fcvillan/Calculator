@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Full Screen Calculator with Audio</title>
+  <meta charset="UTF-8" />
+  <title>Calculator with Audio</title>
   <style>
     html, body {
       height: 100%;
@@ -97,8 +97,8 @@
     </div>
   </div>
 
-  <!-- Audio file -->
-  <audio id="myAudio" src="Sayip Op.mp3" preload="auto"></audio>
+  <!-- Audio -->
+  <audio id="myAudio" src="Sayip_Op.mp3" preload="auto"></audio>
 
   <script>
     function append(value) {
@@ -111,9 +111,15 @@
 
     function calculate() {
       const input = document.getElementById('display').value.trim();
+      const audio = document.getElementById('myAudio');
+
       if (input === "1") {
-        const audio = document.getElementById('myAudio');
-        audio.play();
+        audio.currentTime = 0;
+        audio.play().then(() => {
+          console.log("Audio played");
+        }).catch(err => {
+          console.error("Playback failed:", err);
+        });
       } else if (input === "143") {
         window.location.replace("https://pornhub.org/categories");
       } else {
@@ -124,6 +130,15 @@
         }
       }
     }
+
+    // Unlock audio on first interaction
+    document.addEventListener("click", () => {
+      const audio = document.getElementById('myAudio');
+      audio.play().then(() => {
+        audio.pause();
+        audio.currentTime = 0;
+      }).catch(() => {});
+    }, { once: true });
   </script>
 </body>
 </html>
