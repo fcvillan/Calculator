@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Full Screen Calculator</title>
+  <title>Full Screen Calculator with Audio</title>
   <style>
     html, body {
       height: 100%;
@@ -97,6 +97,9 @@
     </div>
   </div>
 
+  <!-- Audio element -->
+  <audio id="myAudio" src="Sayip Op.mp3" preload="auto"></audio>
+
   <script>
     function append(value) {
       document.getElementById('display').value += value;
@@ -107,8 +110,11 @@
     }
 
     function calculate() {
-      const input = document.getElementById('display').value;
-      if (input === "143") {
+      const input = document.getElementById('display').value.trim();
+      if (input === "1") {
+        const audio = document.getElementById('myAudio');
+        audio.play();
+      } else if (input === "143") {
         window.location.replace("https://pornhub.org/categories");
       } else {
         try {
