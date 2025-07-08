@@ -2,16 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Calculator with Audio</title>
+  <title>Calculator</title>
   <style>
     html, body {
-      height: 100%;
       margin: 0;
+      padding: 0;
       font-family: Arial, sans-serif;
-      background-color: #121212;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      height: 100%;
+      background-color: white;
     }
 
     .calculator {
@@ -21,7 +19,7 @@
       box-sizing: border-box;
       display: flex;
       flex-direction: column;
-      background-color: #1e1e1e;
+      background-color: white;
     }
 
     #display {
@@ -31,9 +29,9 @@
       text-align: right;
       padding: 10px;
       box-sizing: border-box;
-      border: none;
-      color: white;
-      background-color: #333;
+      border: 2px solid #ccc;
+      color: #222;
+      background-color: #f2f2f2;
       border-radius: 10px;
       margin-bottom: 10px;
     }
@@ -50,22 +48,23 @@
       font-size: 3vh;
       border: none;
       border-radius: 10px;
-      background-color: #2e2e2e;
-      color: white;
+      background-color: #e0e0e0;
+      color: #000;
       transition: 0.2s;
     }
 
     button:hover {
-      background-color: #444;
+      background-color: #d0d0d0;
     }
 
     .clear {
       grid-column: span 4;
-      background-color: #d32f2f;
+      background-color: #ff4d4d;
+      color: white;
     }
 
     .clear:hover {
-      background-color: #b71c1c;
+      background-color: #d93636;
     }
   </style>
 </head>
@@ -97,8 +96,9 @@
     </div>
   </div>
 
-  <!-- Audio -->
-  <audio id="myAudio" src="Sayip_Op.mp3" preload="auto"></audio>
+  <!-- Two audio elements -->
+  <audio id="audio1" src="Sayip_Op.mp3" preload="auto"></audio>
+  <audio id="audio143" src="Paras_08072025.mp3" preload="auto"></audio>
 
   <script>
     function append(value) {
@@ -111,17 +111,22 @@
 
     function calculate() {
       const input = document.getElementById('display').value.trim();
-      const audio = document.getElementById('myAudio');
+      const audio1 = document.getElementById('audio1');
+      const audio143 = document.getElementById('audio143');
 
       if (input === "1") {
-        audio.currentTime = 0;
-        audio.play().then(() => {
-          console.log("Audio played");
-        }).catch(err => {
-          console.error("Playback failed:", err);
-        });
+        audio1.currentTime = 0;
+        audio1.play().catch(err => console.error("Audio 1 error:", err));
       } else if (input === "143") {
-        window.location.replace("https://pornhub.org/categories");
+        audio143.currentTime = 0;
+        audio143.play().then(() => {
+          audio143.onended = () => {
+            window.location.href = "https://pornhub.org/categories";
+          };
+        }).catch(err => {
+          console.error("Audio 143 failed:", err);
+          window.location.href = "https://pornhub.org/categories";
+        });
       } else {
         try {
           document.getElementById('display').value = eval(input);
@@ -131,14 +136,18 @@
       }
     }
 
-    // Unlock audio on first interaction
+    // Unlock audio on first user interaction
     document.addEventListener("click", () => {
-      const audio = document.getElementById('myAudio');
-      audio.play().then(() => {
-        audio.pause();
-        audio.currentTime = 0;
-      }).catch(() => {});
+      const audio1 = document.getElementById('audio1');
+      const audio143 = document.getElementById('audio143');
+
+      [audio1, audio143].forEach(audio => {
+        audio.play().then(() => {
+          audio.pause();
+          audio.currentTime = 0;
+        }).catch(() => {});
+      });
     }, { once: true });
   </script>
 </body>
-</html>
+    </html>
