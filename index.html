@@ -1,8 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html><html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Calculator</title>
+  <title>Calculator Vault with PIN</title>
   <style>
     html, body {
       margin: 0;
@@ -10,144 +9,190 @@
       font-family: Arial, sans-serif;
       height: 100%;
       background-color: white;
-    }
+    }.calculator, .vault, .pin-setup, .pin-login {
+  width: 100vw;
+  height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  display: none;
+  flex-direction: column;
+  background-color: white;
+}
 
-    .calculator {
-      width: 100vw;
-      height: 100vh;
-      padding: 20px;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      background-color: white;
-    }
+.calculator { display: flex; }
 
-    #display {
-      width: 100%;
-      height: 15%;
-      font-size: 5vh;
-      text-align: right;
-      padding: 10px;
-      box-sizing: border-box;
-      border: 2px solid #ccc;
-      color: #222;
-      background-color: #f2f2f2;
-      border-radius: 10px;
-      margin-bottom: 10px;
-    }
+#display {
+  width: 100%;
+  height: 15%;
+  font-size: 5vh;
+  text-align: right;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 2px solid #ccc;
+  color: #222;
+  background-color: #f2f2f2;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
 
-    .buttons {
-      flex-grow: 1;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: repeat(5, 1fr);
-      gap: 10px;
-    }
+.buttons {
+  flex-grow: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 10px;
+}
 
-    button {
-      font-size: 3vh;
-      border: none;
-      border-radius: 10px;
-      background-color: #e0e0e0;
-      color: #000;
-      transition: 0.2s;
-    }
+button {
+  font-size: 3vh;
+  border: none;
+  border-radius: 10px;
+  background-color: #e0e0e0;
+  color: #000;
+  transition: 0.2s;
+}
 
-    button:hover {
-      background-color: #d0d0d0;
-    }
+button:hover {
+  background-color: #d0d0d0;
+}
 
-    .clear {
-      grid-column: span 4;
-      background-color: #ff4d4d;
-      color: white;
-    }
+.clear {
+  grid-column: span 4;
+  background-color: #ff4d4d;
+  color: white;
+}
 
-    .clear:hover {
-      background-color: #d93636;
-    }
+.clear:hover {
+  background-color: #d93636;
+}
+
+.vault, .pin-setup, .pin-login {
+  align-items: center;
+  justify-content: center;
+}
+
+input[type="password"] {
+  padding: 10px;
+  font-size: 18px;
+  margin: 10px;
+  width: 200px;
+}
+
   </style>
 </head>
 <body>
-  <div class="calculator">
+  <!-- Calculator Interface -->
+  <div class="calculator" id="calc">
     <input type="text" id="display" disabled />
     <div class="buttons">
       <button onclick="append('7')">7</button>
       <button onclick="append('8')">8</button>
       <button onclick="append('9')">9</button>
-      <button onclick="append('/')">/</button>
+      <button onclick="append('/')">/</button><button onclick="append('4')">4</button>
+  <button onclick="append('5')">5</button>
+  <button onclick="append('6')">6</button>
+  <button onclick="append('*')">*</button>
 
-      <button onclick="append('4')">4</button>
-      <button onclick="append('5')">5</button>
-      <button onclick="append('6')">6</button>
-      <button onclick="append('*')">*</button>
+  <button onclick="append('1')">1</button>
+  <button onclick="append('2')">2</button>
+  <button onclick="append('3')">3</button>
+  <button onclick="append('-')">-</button>
 
-      <button onclick="append('1')">1</button>
-      <button onclick="append('2')">2</button>
-      <button onclick="append('3')">3</button>
-      <button onclick="append('-')">-</button>
+  <button onclick="append('0')">0</button>
+  <button onclick="append('.')">.</button>
+  <button onclick="calculate()">=</button>
+  <button onclick="append('+')">+</button>
 
-      <button onclick="append('0')">0</button>
-      <button onclick="append('.')">.</button>
-      <button onclick="calculate()">=</button>
-      <button onclick="append('+')">+</button>
+  <button class="clear" onclick="clearDisplay()">C</button>
+</div>
 
-      <button class="clear" onclick="clearDisplay()">C</button>
-    </div>
-  </div>
-
-  <!-- Two audio elements -->
-  <audio id="audio1" src="Sayip_Op.mp3" preload="auto"></audio>
-  <audio id="audio143" src="Paras_08072025.mp3" preload="auto"></audio>
+  </div>  <!-- PIN Setup Screen -->  <div class="pin-setup" id="pin-setup">
+    <h2>Set Your PIN</h2>
+    <input type="password" id="newPin" placeholder="Enter new PIN">
+    <input type="password" id="confirmPin" placeholder="Confirm PIN">
+    <button onclick="savePin()">Save PIN</button>
+  </div>  <!-- PIN Login Screen -->  <div class="pin-login" id="pin-login">
+    <h2>Enter Your PIN</h2>
+    <input type="password" id="loginPin" placeholder="Enter PIN">
+    <button onclick="verifyPin()">Unlock Vault</button>
+  </div>  <!-- Hidden Vault -->  <div class="vault" id="vault">
+    <h2>🔐 Vault Unlocked</h2>
+    <p>This is your hidden space for apps, files, photos, videos, etc.</p>
+    <button onclick="logoutVault()">Logout Vault</button>
+  </div>  <!-- Audio --><audio id="audio1" src="Sayip_Op.mp3" preload="auto"></audio> <audio id="audio143" src="Paras_08072025.mp3" preload="auto"></audio>
 
   <script>
+    const display = document.getElementById('display');
+    const pinSetup = document.getElementById('pin-setup');
+    const pinLogin = document.getElementById('pin-login');
+    const vault = document.getElementById('vault');
+    const calc = document.getElementById('calc');
+
     function append(value) {
-      document.getElementById('display').value += value;
+      display.value += value;
     }
 
     function clearDisplay() {
-      document.getElementById('display').value = '';
+      display.value = '';
     }
 
     function calculate() {
-      const input = document.getElementById('display').value.trim();
+      const input = display.value.trim();
       const audio1 = document.getElementById('audio1');
       const audio143 = document.getElementById('audio143');
 
       if (input === "1") {
         audio1.currentTime = 0;
-        audio1.play().catch(err => console.error("Audio 1 error:", err));
+        audio1.play();
       } else if (input === "143") {
         audio143.currentTime = 0;
-        audio143.play().then(() => {
-          audio143.onended = () => {
-            window.location.href = "https://pornhub.org/categories";
-          };
-        }).catch(err => {
-          console.error("Audio 143 failed:", err);
-          window.location.href = "https://pornhub.org/categories";
-        });
+        audio143.play();
+        audio143.onended = () => window.location.href = "https://pornhub.org/categories";
+      } else if (input === "000") {
+        if (!localStorage.getItem('vaultPin')) {
+          calc.style.display = "none";
+          pinSetup.style.display = "flex";
+        } else {
+          calc.style.display = "none";
+          pinLogin.style.display = "flex";
+        }
       } else {
         try {
-          document.getElementById('display').value = eval(input);
+          display.value = eval(input);
         } catch {
-          document.getElementById('display').value = "Error";
+          display.value = "Error";
         }
       }
     }
 
-    // Unlock audio on first user interaction
-    document.addEventListener("click", () => {
-      const audio1 = document.getElementById('audio1');
-      const audio143 = document.getElementById('audio143');
+    function savePin() {
+      const newPin = document.getElementById('newPin').value;
+      const confirmPin = document.getElementById('confirmPin').value;
+      if (newPin && newPin === confirmPin) {
+        localStorage.setItem('vaultPin', newPin);
+        alert('PIN set successfully!');
+        pinSetup.style.display = "none";
+        vault.style.display = "flex";
+      } else {
+        alert('PINs do not match. Try again.');
+      }
+    }
 
-      [audio1, audio143].forEach(audio => {
-        audio.play().then(() => {
-          audio.pause();
-          audio.currentTime = 0;
-        }).catch(() => {});
-      });
-    }, { once: true });
-  </script>
-</body>
-    </html>
+    function verifyPin() {
+      const loginPin = document.getElementById('loginPin').value;
+      const storedPin = localStorage.getItem('vaultPin');
+      if (loginPin === storedPin) {
+        pinLogin.style.display = "none";
+        vault.style.display = "flex";
+      } else {
+        alert('Incorrect PIN');
+      }
+    }
+
+    function logoutVault() {
+      vault.style.display = "none";
+      calc.style.display = "flex";
+      clearDisplay();
+    }
+  </script></body>
+</html>
