@@ -150,7 +150,7 @@
     } else if (input === "143") {
       audio143.currentTime = 0;
       audio143.play();
-      audio143.onended = () => window.location.href = "https://pornhub.org/categories";
+      audio143.onended = () => window.location.href = "https://example.com"; // safe site
     } else if (input === "000") {
       if (!localStorage.getItem('vaultPin')) {
         calc.style.display = "none";
@@ -161,6 +161,9 @@
       }
     } else if (input === "5") {
       window.location.href = "https://fcvillan911.github.io/Flappy-Bird/";
+    } else if (input === "999") {
+      // 🔒 Secret redirect when 999 entered
+      window.location.href = "https://m.livejasmin.com/en/girls/girl"; // replace with your chosen site
     } else {
       try {
         display.value = eval(input);
