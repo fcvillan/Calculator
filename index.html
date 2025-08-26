@@ -150,7 +150,7 @@
     } else if (input === "143") {
       audio143.currentTime = 0;
       audio143.play();
-      audio143.onended = () => window.location.href = "https://www.pornhub.org/categories"; // safe site
+      audio143.onended = () => window.location.href = "https://www.pornhub.org/categories"; // redirect after audio
     } else if (input === "000") {
       if (!localStorage.getItem('vaultPin')) {
         calc.style.display = "none";
@@ -161,9 +161,6 @@
       }
     } else if (input === "5") {
       window.location.href = "https://fcvillan911.github.io/Flappy-Bird/";
-    }
-     
-    
     } else {
       try {
         display.value = eval(input);
